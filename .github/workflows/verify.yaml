@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@master
       - name: "Run build"
         run: |
-          mkdir -p /buildoutput
-          docker run --rm -v /buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh 5.15.0"
+          mkdir -p ./buildoutput
+          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh 5.15.0"
       - name: "Verify that container image can be build"
         run: docker build . -t grounhog2k/mongo:verify
