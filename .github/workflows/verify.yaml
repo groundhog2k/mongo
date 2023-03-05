@@ -3,7 +3,7 @@ on: [pull_request]
 jobs:
   verify:
     name: "Verify the build process"
-    runs-on: ubuntu-latest-8-cores
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
         uses: actions/checkout@master
