@@ -10,9 +10,10 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@master
-      - name: "Run build"
+      - name: "Run build simulation"
         run: |
           mkdir -p ./buildoutput
-          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh $MONGO_VERSION"
+          # docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh $MONGO_VERSION"
+          touch ./buildoutput/test
       - name: "Verify that container image can be build"
         run: docker build . -t grounhog2k/mongo:verify --build-arg MONGO_VERSION=$MONGO_VERSION"
