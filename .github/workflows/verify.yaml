@@ -1,5 +1,8 @@
 on: [pull_request]
 
+env:
+  MONGO_VERSION: "5.0.15"
+
 jobs:
   verify:
     name: "Verify the build process"
@@ -10,6 +13,6 @@ jobs:
       - name: "Run build"
         run: |
           mkdir -p ./buildoutput
-          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh 5.15.0"
+          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh $MONGO_VERSION"
       - name: "Verify that container image can be build"
-        run: docker build . -t grounhog2k/mongo:verify
+        run: docker build . -t grounhog2k/mongo:verify --build-arg MONGO_VERSION=$MONGO_VERSION"
