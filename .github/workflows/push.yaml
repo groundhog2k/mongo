@@ -5,6 +5,7 @@ on:
 
 env:
   MONGO_VERSION: "5.0.15"
+  BUILDER_VERSION: "5-amd64"
 
 jobs:
   push-image:
@@ -15,7 +16,7 @@ jobs:
       - name: "Run MongoDB build"
         run: |
           mkdir -p ./buildoutput
-          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:5-amd64 /bin/bash "-c" "./build.sh $MONGO_VERSION"
+          docker run --rm -v ${PWD}/buildoutput:/buildoutput groundhog2k/mongo-builder:$BUILDER_VERSION /bin/bash "-c" "./build.sh $MONGO_VERSION"
       - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@v1
       - name: "Login to the container registry"
@@ -32,9 +33,9 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: groundhog2k/mongo:$MONGO_VERSION
+          tags: groundhog2k/mongo:${{ env.MONGO_VERSION }}
           build-args: |
-            MONGO_VERSION=$MONGO_VERSION
+            MONGO_VERSION=${{ env.MONGO_VERSION }}
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
